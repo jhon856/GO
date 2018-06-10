@@ -1,0 +1,55 @@
+{{ define "index" }}
+    <h1>
+        Holaaaaaaaaaaaaaaaaaaaaaaaaa xxxx
+    </h1>
+    <div>
+        <h3>
+            usuario {{.UserName}}
+             {{if.Activo}}
+                <p>el usuario esta activo</p>
+                {{else}}
+                <p>el usuario esta activo</p>
+                {{end}}
+                {{if (or .Activo .Admin)}}
+                <p>el usuario es Admin</p>
+                {{end}}
+<!-- otra forma de hacer lo de activo y admin PERO CON METODOS... SIEMPRE DEBE SER UN METODO CON RETURN-->
+                {{if (.TienePermisoAdmin "no")}}
+                     <p>Adminnnnnnnnn</p>
+                {{end}}
+                 <!-- and -->
+                  <!-- or -->
+                <!-- esto hace una doble condicion activo y admin -->
+        </h3>
+        <h3>
+            edad {{.Edad}}
+        </h3>
+         <!-- para  > gt   -->
+         <!-- and >= ge   -->
+         <!-- para  < lt   -->
+         <!-- and <= le   -->
+          <!-- and !=   ne  -->
+           <!--  == eq    -->
+            <!-- != ne  -->
+        {{if (gt .Edad 22)}}
+        <p>el usuario es mayor 22años</p>
+        {{end}}
+    </div>
+
+    <div>
+        <ul>
+             <!-- range... es para iterar una variable  -->
+            {{ range .Tags}}
+            <li>
+                {{ .}}
+            </li>
+            {{end}}
+        </ul>
+    </div>
+      <!-- variables en el template-->
+      
+            {{with $valor := "cualquier variable , string,int ,bool"}}
+            <p> {{$valor}} </p>  
+            {{end}}
+
+{{ end }}

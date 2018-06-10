@@ -5,7 +5,6 @@
     <title>
         index
     </title>
-    <link rel="stylesheet" href="./index.css">
 </head>
 
 <body>
@@ -22,6 +21,10 @@
                 {{end}}
                 {{if (or .Activo .Admin)}}
                 <p>el usuario es Admin</p>
+                {{end}}
+<!-- otra forma de hacer lo de activo y admin PERO CON METODOS... SIEMPRE DEBE SER UN METODO CON RETURN-->
+                {{if (.TienePermisoAdmin "no")}}
+                     <p>Adminnnnnnnnn</p>
                 {{end}}
                  <!-- and -->
                   <!-- or -->
