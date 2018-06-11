@@ -27,10 +27,7 @@ func main() {
 		mux.Handle("/css/", http.StripPrefix("/css/", staticFiles))
 	*/
 	//staticFiles := http.FileServer(http.Dir("css"))
-	staticFiles := http.FileServer(http.Dir("css"))
-	mux := http.NewServeMux()
-	mux.Handle("/css/", http.StripPrefix("/css/", staticFiles))
-	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 
 		// este es para mandar un template	///template, err := template.New("Hola").Parse("hola este es un template")// de este forma se manda a la pagina html
 		template, err := template.ParseFiles("./index.html") // este  si le pasas un arch Html
@@ -54,5 +51,5 @@ func main() {
 	})
 
 	fmt.Println("el servidos escucha en el puerto :8000")
-	log.Fatal(http.ListenAndServe(":8000", mux))
+	log.Fatal(http.ListenAndServe(":8000", nil))
 }

@@ -1,10 +1,23 @@
 package main
 
 import (
+	"html/template"
 	"log"
 	"net/http"
-	"text/template"
 )
+
+//Usuario algo
+type Usuario struct {
+	UserName string
+	Edad     int
+	Activo   bool
+	Admin    bool
+	Tags     []string
+}
+
+func (this Usuario) TienePermisoAdmin(llave string) bool {
+	return this.Activo && this.Admin && llave == "si"
+}
 
 var templates = template.Must(template.New("T").ParseGlob("ayuda/*.html"))
 
@@ -22,12 +35,20 @@ func RenderTemplate(w http.ResponseWriter, name string, data interface{}) {
 	}
 }
 func main() {
-
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		RenderTemplate(w, "registrox", nil)
+	staticFiles := http.FileServer(http.Dir("css"))
+	mux := http.NewServeMux()
+	mux.Handle("/css/", http.StripPrefix("/css/", staticFiles))
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		tags := []string{"GO", "Java", "Angular"}
+		usuario := Usuario{UserName: "Jhonnathan Henriquez",
+			Edad:   26,
+			Activo: true,
+			Admin:  true,
+			Tags:   tags}
+		RenderTemplate(w, "registrox", usuario)
 	})
 
-	log.Fatal("el servidos escucha en el puerto :8000")
-	log.Fatal(http.ListenAndServe(":8000", nil))
+	log.Println("el servidos escucha en el puerto :8000")
+	log.Fatal(http.ListenAndServe(":8000", mux))
 
 }
