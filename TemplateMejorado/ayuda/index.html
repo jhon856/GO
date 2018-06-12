@@ -1,10 +1,10 @@
-{{ define "index" }}
+{{ define "index2" }}
     <h1>
         Holaaaaaaaaaaaaaaaaaaaaaaaaa xxxx
     </h1>
     <div>
         <h3>
-            usuario {{.UserName}}
+            usuario {{ . .UserName}}
              {{if.Activo}}
                 <p>el usuario esta activo</p>
                 {{else}}
