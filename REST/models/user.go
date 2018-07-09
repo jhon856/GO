@@ -8,6 +8,15 @@ type User struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
+
+const UserSchema string = `CREATE TABLE user (
+    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(30) NOT NULL,
+    password VARCHAR(64) NOT NULL,
+    emial VARCHAR(40),
+    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)`
+
 type Users []User
 
 var users = make(map[int]User)

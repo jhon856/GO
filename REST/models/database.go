@@ -3,7 +3,8 @@ package models
 import (
 	"database/sql"
 	"fmt"
-
+	"log"
+	//database!
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -29,6 +30,24 @@ func CreateConnection() {
 	}
 
 }
+func CreateTable(tableName, schema string) {
+	if !ExistsTable(tableName) {
+		_, err := db.Exec(schema)
+		if err != nil {
+			log.Println(err)
+		}
+	}
+
+}
+func ExistsTable(tableName string) bool {
+	// show tables like 'algo';
+	sql := fmt.Sprintf("show tables like '%s'", tableName)
+	rows, err := db.Query(sql)
+	if err != nil {
+		log.Println(err)
+	}
+	return rows.Next()
+}
 
 func Ping() {
 	if err := db.Ping(); err != nil {
@@ -41,7 +60,7 @@ func CloseConnection() {
 }
 
 func generateURL() string {
-	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", usarname, password, host, port, database)
+	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8", usarname, password, host, port, database)
 }
 
 //<username>:<password>@tcp(<host>)/<database>
